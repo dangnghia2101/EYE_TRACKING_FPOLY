@@ -10,10 +10,10 @@ gaze = GazeTracking()
 #webcam = cv2.VideoCapture(0)
 link = "E:\Thi\ResFres\BIO-ID Dataset\BioID_0000.jpg";
 file_name = "BioID_0000";
-for i in range(0, 1521, 1):
+for i in range(0, 1521, 1): #tên tấm hình muốn lấy
     file = file_name + str(i);
     while len(file) != 10:
-        file_name = file_name[:-1]
+        file_name = file_name[:-1] #Cắt cuối chuỗi một kí tự
         file = file_name + str(i)
 
     print(link.replace("BioID_0000", file))
