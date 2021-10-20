@@ -41,13 +41,14 @@ class Pupil(object):
         Arguments:
             eye_frame (numpy.ndarray): Frame containing an eye and nothing else
         """
-        self.iris_frame = self.image_processing(eye_frame, self.threshold)
+        self.iris_frame = self.image_processing(eye_frame, self.threshold) #Làm mờ, lóa ảnh, xói mồn, tạo ngưỡng
 
-        contours, _ = cv2.findContours(self.iris_frame, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)[-2:]
-        contours = sorted(contours, key=cv2.contourArea)
+        contours, _ = cv2.findContours(self.iris_frame, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)[-2:] # https://www.phamduytung.com/blog/2019-05-26-contours/, đếm số lượng hình tròn
+        contours = sorted(contours, key=cv2.contourArea) #Sắp xếp
 
         try:
-            moments = cv2.moments(contours[-2])
+            moments = cv2.moments(contours[-2]) # calculate moments of binary image
+            # calculate x,y coordinate of center
             self.x = int(moments['m10'] / moments['m00'])
             self.y = int(moments['m01'] / moments['m00'])
         except (IndexError, ZeroDivisionError):

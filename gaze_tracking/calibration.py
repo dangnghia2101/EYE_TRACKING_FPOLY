@@ -51,14 +51,14 @@ class Calibration(object):
         Argument:
             eye_frame (numpy.ndarray): Frame of the eye to be analyzed
         """
-        average_iris_size = 0.48
+        average_iris_size = 0.48 #giá trị mống mắt trung bình
         trials = {}
 
         for threshold in range(5, 100, 5):
-            iris_frame = Pupil.image_processing(eye_frame, threshold)
-            trials[threshold] = Calibration.iris_size(iris_frame)
+            iris_frame = Pupil.image_processing(eye_frame, threshold) #Xử lí mắt, làm mờ, ăn mòn...
+            trials[threshold] = Calibration.iris_size(iris_frame) #Array phần trăm mà phần mống mắt chiếm
 
-        best_threshold, iris_size = min(trials.items(), key=(lambda p: abs(p[1] - average_iris_size)))
+        best_threshold, iris_size = min(trials.items(), key=(lambda p: abs(p[1] - average_iris_size))) #Lấy phần tử có giá trị, mà giá trị cho average_iris_size là nhỏ nhất
         return best_threshold
 
     def evaluate(self, eye_frame, side):
@@ -69,7 +69,7 @@ class Calibration(object):
             eye_frame (numpy.ndarray): Frame of the eye
             side: Indicates whether it's the left eye (0) or the right eye (1)
         """
-        threshold = self.find_best_threshold(eye_frame)
+        threshold = self.find_best_threshold(eye_frame) # Ngưỡng mà mống mắt đạt tỉ lệ chính xác tốt nhất
 
         if side == 0:
             self.thresholds_left.append(threshold)

@@ -9,8 +9,8 @@ class Eye(object):
     This class creates a new frame to isolate the eye and
     initiates the pupil detection.
     """
-    LEFT_EYE_POINTS = [36, 37, 38, 39, 40, 41]
-    RIGHT_EYE_POINTS = [42, 43, 44, 45, 46, 47]
+    RIGHT_EYE_POINTS = [36, 37, 38, 39, 40, 41]
+    LEFT_EYE_POINTS = [42, 43, 44, 45, 46, 47]
 
     def __init__(self, original_frame, landmarks, side, calibration):
         self.frame = None
@@ -43,12 +43,13 @@ class Eye(object):
             landmarks (dlib.full_object_detection): Facial landmarks for the face region
             points (list): Points of an eye (from the 68 Multi-PIE landmarks)
         """
-        region = np.array([(landmarks.part(point).x, landmarks.part(point).y) for point in points])
+        #Truyền vô mảng nhị phân 8 tọa độ khung mắt
+        region = np.array([(landmarks.part(point).x, landmarks.part(point).y) for point in points]) 
         region = region.astype(np.int32)
         self.landmark_points = region
 
         # Applying a mask to get only the eye
-        height, width = frame.shape[:2]
+        height, width = frame.shape[:2] #Lấy 2 giá trị chiều dài và rộng.
         black_frame = np.zeros((height, width), np.uint8) #Tạo black_frame bằng khung hình màu đen
         mask = np.full((height, width), 255, np.uint8) #Tạo mặt nạ mask màu trắng
         cv2.fillPoly(mask, [region], (0, 0, 0)) #Lấy ra khung mắt mask mang màu trắng đen(Đen là mắt, trắng là nền ngoài)
@@ -78,13 +79,14 @@ class Eye(object):
         Returns:
             The computed ratio
         """
-        left = (landmarks.part(points[0]).x, landmarks.part(points[0]).y)
-        right = (landmarks.part(points[3]).x, landmarks.part(points[3]).y)
+        left = (landmarks.part(points[0]).x, landmarks.part(points[0]).y) #Lấy tạo độ x,y bên góc phải của mắt. Nếu mắt phải lấy mốc 37, mắt trái lấy mốc 43
+        right = (landmarks.part(points[3]).x, landmarks.part(points[3]).y)  #Lấy tạo độ x,y bên góc trái của mắt. Nếu mắt phải lấy mốc 40, mắt trái lấy mốc 46
         top = self._middle_point(landmarks.part(points[1]), landmarks.part(points[2]))
         bottom = self._middle_point(landmarks.part(points[5]), landmarks.part(points[4]))
 
-        eye_width = math.hypot((left[0] - right[0]), (left[1] - right[1]))
-        eye_height = math.hypot((top[0] - bottom[0]), (top[1] - bottom[1]))
+        #math.hypot tính cạnh huyền trong tam giác vuông
+        eye_width = math.hypot((left[0] - right[0]), (left[1] - right[1])) #Tính chiều ngang mắt
+        eye_height = math.hypot((top[0] - bottom[0]), (top[1] - bottom[1])) #Tính chiều cao mắt
 
         try:
             ratio = eye_width / eye_height
@@ -104,17 +106,17 @@ class Eye(object):
             calibration (calibration.Calibration): Manages the binarization threshold value
         """
         if side == 0:
-            points = self.LEFT_EYE_POINTS #các điểm khung mắt trái
+            points = self.LEFT_EYE_POINTS #8 điểm khung mắt trái
         elif side == 1:
-            points = self.RIGHT_EYE_POINTS #các điểm khung mắt phải
+            points = self.RIGHT_EYE_POINTS #8 điểm khung mắt phải
         else:
             return
 
-        self.blinking = self._blinking_ratio(landmarks, points) #Kiểm tra nháy mắt
+        self.blinking = self._blinking_ratio(landmarks, points) #Kiểm tra nháy mắt, kq = chiều ngang/chiều cao mắt
         self._isolate(original_frame, landmarks, points) #Chiết suất khung mắt
 
         if not calibration.is_complete():
-            calibration.evaluate(self.frame, side)
+            calibration.evaluate(self.frame, side)  # Ngưỡng mà mống mắt đạt tỉ lệ chính xác tốt nhất, trais va phai
 
-        threshold = calibration.threshold(side)
-        self.pupil = Pupil(self.frame, threshold)
+        threshold = calibration.threshold(side) # Ngưỡng mà mống mắt đạt tỉ lệ chính xác tốt nhất
+        self.pupil = Pupil(self.frame, threshold) 
