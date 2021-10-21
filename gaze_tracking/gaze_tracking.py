@@ -46,8 +46,8 @@ class GazeTracking(object):
 
         try:
             landmarks = self._predictor(frame, faces[0]) # Nhận dạng 68 mốc trên mặt
-            self.eye_left = Eye(frame, landmarks, 0, self.calibration)
-            self.eye_right = Eye(frame, landmarks, 1, self.calibration)
+            self.eye_left = Eye(frame, landmarks, 0, self.calibration) #Tọa độ tâm mắt trái
+            self.eye_right = Eye(frame, landmarks, 1, self.calibration) #Tọa độ tâm mắt phải
 
         except IndexError:
             self.eye_left = None
@@ -82,6 +82,7 @@ class GazeTracking(object):
         the center is 0.5 and the extreme left is 1.0
         """
         if self.pupils_located:
+            # self.eye_left.center là chiều ngang của nửa mắt, bởi vì lúc trước chúng ta cộng 5 cho 4 góc nên bây giờ phải trừ 10
             pupil_left = self.eye_left.pupil.x / (self.eye_left.center[0] * 2 - 10)
             pupil_right = self.eye_right.pupil.x / (self.eye_right.center[0] * 2 - 10)
             return (pupil_left + pupil_right) / 2
@@ -119,9 +120,10 @@ class GazeTracking(object):
 
     def annotated_frame(self):
         """Returns the main frame with pupils highlighted"""
+        # Vẽ dấu cộng xác định trung tâm mắt
         frame = self.frame.copy()
 
-        if self.pupils_located:
+        if self.pupils_located: #Kiểm tra xem đã xác định được 2 mắt chưa
             color = (0, 255, 0)
             x_left, y_left = self.pupil_left_coords()
             x_right, y_right = self.pupil_right_coords()

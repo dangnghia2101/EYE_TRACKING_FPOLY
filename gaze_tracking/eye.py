@@ -119,4 +119,6 @@ class Eye(object):
             calibration.evaluate(self.frame, side)  # Ngưỡng mà mống mắt đạt tỉ lệ chính xác tốt nhất, trais va phai
 
         threshold = calibration.threshold(side) # Ngưỡng mà mống mắt đạt tỉ lệ chính xác tốt nhất
-        self.pupil = Pupil(self.frame, threshold) 
+        self.pupil = Pupil(self.frame, threshold) # Lấy tọa độ tâm mống mắt
+
+        

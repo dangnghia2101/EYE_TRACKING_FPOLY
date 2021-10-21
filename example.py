@@ -5,57 +5,57 @@ Check the README.md for complete documentation.
 
 import cv2
 from gaze_tracking import GazeTracking
+from gaze_tracking.eye import Eye
+
 
 gaze = GazeTracking()
-#webcam = cv2.VideoCapture(0)
+webcam = cv2.VideoCapture(0)
 link = "E:\Thi\ResFres\BIO-ID Dataset\BioID_0000.jpg";
-file_name = "BioID_0000";
-for i in range(0, 1521, 1): #tên tấm hình muốn lấy
-    file = file_name + str(i);
-    while len(file) != 10:
-        file_name = file_name[:-1] #Cắt cuối chuỗi một kí tự
-        file = file_name + str(i)
+# file_name = "BioID_0000";
+# for i in range(0, 221, 1): #tên tấm hình muốn lấy
+#     file = file_name + str(i);
+#     while len(file) != 10:
+#         file_name = file_name[:-1] #Cắt cuối chuỗi một kí tự
+#         file = file_name + str(i)
 
-    print(link.replace("BioID_0000", file))
-    webcam = cv2.imread(link.replace("BioID_0000", file)) 
-    
-    link = "E:\Thi\ResFres\BIO-ID Dataset\BioID_0000.jpg";
+    # webcam = cv2.imread(link.replace("BioID_0000", file)) 
 
-    while True:
-        # We get a new frame from the webcam
-        #_, frame = webcam.read()
+# webcam = cv2.imread(link)
 
-        # We send this frame to GazeTracking to analyze it
-        #gaze.refresh(frame)
-        gaze.refresh(webcam)
+# link = "E:\Thi\ResFres\BIO-ID Dataset\BioID_0000.jpg";
 
-        frame = gaze.annotated_frame()
-        text = ""
+while True:
+    # We get a new frame from the webcam
+    _, frame = webcam.read()
 
-        if gaze.is_blinking():
-            text = "Blinking"
-        elif gaze.is_right():
-            text = "Looking right"
-        elif gaze.is_left():
-            text = "Looking left"
-        elif gaze.is_center():
-            text = "Looking center"
+    # We send this frame to GazeTracking to analyze it
+    gaze.refresh(frame)
+    # gaze.refresh(webcam)
 
-        cv2.putText(frame, text, (30, 60), cv2.FONT_HERSHEY_DUPLEX, 1.6, (147, 58, 31), 2)
+    frame = gaze.annotated_frame() #Vẽ dấu cộng tâm mắt
+    text = ""
 
-        left_pupil = gaze.pupil_left_coords()
-        right_pupil = gaze.pupil_right_coords()
-        cv2.putText(frame, "Left pupil:  " + str(left_pupil), (40, 90), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
-        cv2.putText(frame, "Right pupil: " + str(right_pupil), (40, 165), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
+    if gaze.is_blinking():
+        text = "Blinking"
+    elif gaze.is_right():
+        text = "Looking right"
+    elif gaze.is_left():
+        text = "Looking left"
+    elif gaze.is_center():
+        text = "Looking center"
 
-        cv2.imshow("Demo", frame)
+    cv2.putText(frame, text, (30, 60), cv2.FONT_HERSHEY_DUPLEX, 1.6, (147, 58, 31), 2)
 
-        if cv2.waitKey(1) == 27:
-            break
+    left_pupil = gaze.pupil_left_coords()
+    right_pupil = gaze.pupil_right_coords()
+    cv2.putText(frame, "Left pupil:  " + str(left_pupil), (40, 90), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
+    cv2.putText(frame, "Right pupil: " + str(right_pupil), (40, 165), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
 
-        print("left", left_pupil)
-        print("right", right_pupil)
+
+    cv2.imshow("Demo", frame)
+
+    if cv2.waitKey(1) == 27:
         break
     
-    #webcam.release()
-    cv2.destroyAllWindows()
+webcam.release()
+cv2.destroyAllWindows()
