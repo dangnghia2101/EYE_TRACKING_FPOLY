@@ -9,15 +9,14 @@ from gaze_tracking.eye import Eye
 
 
 gaze = GazeTracking()
-webcam = cv2.VideoCapture(0)
+link = "E:\Thi\ResFres\BIO-ID Dataset\BioID_0000.jpg";
+
+webcam = cv2.imread(link)
 
 while True:
-    # We get a new frame from the webcam
-    _, frame = webcam.read()
 
     # We send this frame to GazeTracking to analyze it
-    gaze.refresh(frame)
-    # gaze.refresh(webcam)
+    gaze.refresh(webcam)
 
     frame = gaze.annotated_frame() #Vẽ dấu cộng tâm mắt
     text = ""
@@ -45,5 +44,4 @@ while True:
     if cv2.waitKey(1) == 27:
         break
 
-webcam.release()
 cv2.destroyAllWindows()
