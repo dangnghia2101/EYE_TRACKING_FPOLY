@@ -16,24 +16,29 @@ Thuật toán theo dõi mắt
 ![INstall python](https://www.pytorials.com/wp-content/uploads/2017/12/python3.6_installation_3.png)
 
 ## Cài đặt PIP trên Windows
-#### 1. Khởi chạy dấu nhắc lệnh nếu nó chưa được mở. Để làm như vậy, hãy mở thanh tìm kiếm của Windows, gõ cmd và nhấp vào biểu tượng.
-#### 2. Sau đó, chạy lệnh sau để tải xuống tệp get-pip.py :
-> curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-
-![INstall python](https://phoenixnap.com/kb/wp-content/uploads/2021/06/download-a-copy-of-get-pip.png)
-
-#### 3. Cài đặt PIP trên Windows
-> python get-pip.py
-
-![INstall python](https://phoenixnap.com/kb/wp-content/uploads/2021/06/install-pip.png)
-
-#### Nếu không tìm thấy tệp, hãy kiểm tra kỹ đường dẫn đến thư mục bạn đã lưu tệp. Bạn có thể xem nội dung của thư mục hiện tại của mình bằng lệnh sau:
-> dir
-
-#### Các dirlệnh trả về một danh sách đầy đủ các nội dung của một thư mục.
-#### 4.  Xác minh cài đặt PIP
+#### Kiểm tra máy bạn đã có PIP chưa
 > pip help
+  
+#### Nếu nó báo lỗi dưới đây thì bạn phải tiến hành thêm PIP
+![INstall python](https://phoenixnap.com/kb/wp-content/uploads/2021/06/check-if-pip-is-installed.png)
+ 
+#### 1. Nhấn phím Windows + R để mở hộp thoại Chạy. Sau đó, gõ “ cmd ” và nhấn Enter để mở cửa sổ Command Prompt.
+![INstall python](https://cdn.appuals.com/wp-content/uploads/2018/07/cmd.jpg.webp)
 
-![INstall python](https://phoenixnap.com/kb/wp-content/uploads/2021/06/pip-help-command.png)
+#### 2. Trong cửa sổ Command Prompt, hãy chạy lệnh sau để đặt cài đặt PIP thành biến môi trường:
+> setx PATH “% PATH%; C:\Python36\Scripts”
+
+## Cài đặt OPENCV
+#### 1. Nhấn phím Windows + R để mở hộp thoại Chạy. Sau đó, gõ “ cmd ” và nhấn Enter để mở cửa sổ Command Prompt.
+![INstall python](https://cdn.appuals.com/wp-content/uploads/2018/07/cmd.jpg.webp)
+
+#### 2. Chạy câu lệnh sau:
+> pip install opencv-python
+  
+#### 3. Sau khi opencv cài đặt thành công, bạn gõ lệnh "python"
+![python](https://user-images.githubusercontent.com/75264221/138564618-cd07fc66-b1aa-40eb-8a2a-6ff67395e916.jpg)
+  
+#### 4. Thêm opencv vào python
+![cv2](https://user-images.githubusercontent.com/75264221/138564536-ac871f79-3a91-434e-b6e4-e2fe9ce4abfb.jpg)
 
 
