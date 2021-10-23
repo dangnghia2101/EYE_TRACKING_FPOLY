@@ -62,7 +62,7 @@ class Eye(object):
         min_y = np.min(region[:, 1]) - margin
         max_y = np.max(region[:, 1]) + margin
 
-        print(min_x, " ", min_y, " ", max_x, " ", max_y)
+        # print(min_x, " ", min_y, " ", max_x, " ", max_y)
 
         self.frame = eye[min_y:max_y, min_x:max_x]
         self.origin = (min_x, min_y)
