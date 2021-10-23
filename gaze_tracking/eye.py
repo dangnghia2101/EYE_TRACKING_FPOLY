@@ -62,11 +62,17 @@ class Eye(object):
         min_y = np.min(region[:, 1]) - margin
         max_y = np.max(region[:, 1]) + margin
 
+        print(min_x, " ", min_y, " ", max_x, " ", max_y)
+
         self.frame = eye[min_y:max_y, min_x:max_x]
         self.origin = (min_x, min_y)
 
         height, width = self.frame.shape[:2]
         self.center = (width / 2, height / 2)
+
+        # new_frame = cv2.bilateralFilter(self.frame, 10, 15, 15) #làm mờ, lóa hình ảnh
+        # cv2.imshow("LamMo", new_frame)
+        # cv2.imshow("EyeFrame", self.frame)
 
     def _blinking_ratio(self, landmarks, points):
         """Calculates a ratio that can indicate whether an eye is closed or not.

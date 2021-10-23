@@ -9,8 +9,8 @@ from gaze_tracking.eye import Eye
 
 
 gaze = GazeTracking()
-# webcam = cv2.VideoCapture(0)
-link = "E:\Thi\ResFres\BIO-ID Dataset\BioID_0001.jpg";
+webcam = cv2.VideoCapture(0)
+# link = "E:\Truong_xam.jpg";
 # file_name = "BioID_0000";
 # for i in range(0, 221, 1): #tên tấm hình muốn lấy
 #     file = file_name + str(i);
@@ -20,17 +20,17 @@ link = "E:\Thi\ResFres\BIO-ID Dataset\BioID_0001.jpg";
 
     # webcam = cv2.imread(link.replace("BioID_0000", file)) 
 
-webcam = cv2.imread(link)
+# webcam = cv2.imread(link)
 
 # link = "E:\Thi\ResFres\BIO-ID Dataset\BioID_0000.jpg";
 
 while True:
     # We get a new frame from the webcam
-    # _, frame = webcam.read()
+    _, frame = webcam.read()
 
     # We send this frame to GazeTracking to analyze it
-    # gaze.refresh(frame)
-    gaze.refresh(webcam)
+    gaze.refresh(frame)
+    # gaze.refresh(webcam)
 
     frame = gaze.annotated_frame() #Vẽ dấu cộng tâm mắt
     text = ""
@@ -57,6 +57,7 @@ while True:
 
     if cv2.waitKey(1) == 27:
         break
+
     
-# webcam.release()
+webcam.release()
 cv2.destroyAllWindows()
