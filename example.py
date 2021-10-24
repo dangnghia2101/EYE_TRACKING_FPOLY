@@ -22,14 +22,7 @@ while True:
     frame = gaze.annotated_frame() #Vẽ dấu cộng tâm mắt
     text = ""
 
-    if gaze.is_blinking():
-            text = "Blinking"
-    elif gaze.is_right():
-        text = "Looking right"
-    elif gaze.is_left():
-        text = "Looking left"
-    elif gaze.is_center():
-        text = "Looking center"
+
 
 
 
