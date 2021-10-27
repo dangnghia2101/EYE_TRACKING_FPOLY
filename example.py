@@ -49,8 +49,6 @@ while True:
     cv2.putText(frame, "Left pupil:  " + str(left_pupil), (40, 90), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
     cv2.putText(frame, "Right pupil: " + str(right_pupil), (40, 165), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
 
-    print(str(left_pupil))
-
     cv2.imshow("Demo", frame)
 
     if cv2.waitKey(1) == 27:

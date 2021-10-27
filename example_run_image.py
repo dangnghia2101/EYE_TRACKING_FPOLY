@@ -9,7 +9,7 @@ from gaze_tracking.eye import Eye
 
 
 gaze = GazeTracking()
-link = "E:\Thi\ResFres\BIO-ID Dataset\BioID_0000.jpg";
+link = "E:\Test\Truong_xam.jpg";
 
 webcam = cv2.imread(link)
 
