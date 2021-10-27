@@ -36,7 +36,7 @@ class GazeTracking(object):
             int(self.eye_right.pupil.x)
             int(self.eye_right.pupil.y)
             return True
-        except Exception:
+        except:
             return False
 
     def _analyze(self):
@@ -49,7 +49,7 @@ class GazeTracking(object):
             self.eye_left = Eye(frame, landmarks, 0, self.calibration) #Tọa độ tâm mắt trái
             self.eye_right = Eye(frame, landmarks, 1, self.calibration) #Tọa độ tâm mắt phải
 
-        except IndexError:
+        except:
             self.eye_left = None
             self.eye_right = None
 
