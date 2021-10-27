@@ -46,6 +46,7 @@ Thuật toán theo dõi mắt
 ![INstall python](https://cdn.appuals.com/wp-content/uploads/2018/07/cmd.jpg.webp)
 #### 2. Dán đoạn code dưới đây vào terminal
 > python -m pip install https://files.pythonhosted.org/packages/0e/ce/f8a3cff33ac03a8219768f0694c5d703c8e037e6aba2e865f9bae22ed63c/dlib-19.8.1-cp36-cp36m-win_amd64.whl#sha256=794994fa2c54e7776659fddb148363a5556468a6d5d46be8dad311722d54bfcf
+  
 ![s1](https://user-images.githubusercontent.com/75264221/139001023-a292b46a-9049-4045-b4bf-f0364a8de95d.jpg)
 
 ## Cài đặt numpy
