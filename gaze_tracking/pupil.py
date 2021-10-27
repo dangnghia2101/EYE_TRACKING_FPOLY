@@ -45,7 +45,10 @@ class Pupil(object):
         self.iris_frame = self.image_processing(eye_frame, self.threshold) #Làm mờ, lóa ảnh, xói mồn, tạo ngưỡng
 
         contours, _ = cv2.findContours(self.iris_frame, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)[-2:] # https://www.phamduytung.com/blog/2019-05-26-contours/, ;lấy tọa độ đường bao hình tròn
+
         contours = sorted(contours, key=cv2.contourArea) #Sắp xếp
+
+
 
         try:
             moments = cv2.moments(contours[-2]) # calculate moments of binary image
