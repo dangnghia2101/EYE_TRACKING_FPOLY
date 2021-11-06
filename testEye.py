@@ -20,10 +20,8 @@ BLACK = (0, 0, 0)
 fonts = cv2.FONT_HERSHEY_COMPLEX
  
  #--
-gaze = GazeTracking()
-link = "E:\Test\Truong_xam.jpg";
 
-webcam = cv2.imread(link)
+
 
 # đối tượng nhận diện khuôn mặt
 face_detector = cv2.CascadeClassifier("E:\haarcascade_frontalface_default.xml")
@@ -46,7 +44,7 @@ def Distance_finder(Focal_Length, real_face_width, face_width_in_frame):
  
  
 def face_data(image):
-    gaze.refresh(webcam)
+
     face_width = 0  # làm cho chiều rộng khuôn mặt bằng 0
  
     # chuyển đổi hình ảnh màu so với hình ảnh thang màu xám
