@@ -32,7 +32,7 @@ class MyApp(App):
         image_object = cam.export_as_image(scale=round((400 / int(cam.height)), 2))
         w, h = image_object._texture.size
         frame = np.frombuffer(image_object._texture.pixels, 'uint8').reshape(h, w, 4)
-        gray = cv2.cvtColor(frame, cv2.COLOR_RGBA2GRAY)
+        # gray = cv2.cvtColor(frame, cv2.COLOR_RGBA2GRAY)
         
         gaze.refresh(frame)
         text = ""
