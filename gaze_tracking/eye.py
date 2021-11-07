@@ -55,6 +55,7 @@ class Eye(object):
         cv2.fillPoly(mask, [region], (0, 0, 0)) #Lấy ra khung mắt mask mang màu trắng đen(Đen là mắt, trắng là nền ngoài)
         eye = cv2.bitwise_not(black_frame, frame.copy(), mask=mask) #  Tất cả các pixel lớn hơn 0 được đặt thành 0 và tất cả các pixel bằng 0 được đặt thành 255:
 
+        cv2.imshow("Nghia", eye)
         # Cropping on the eye
         margin = 5
         min_x = np.min(region[:, 0]) - margin
