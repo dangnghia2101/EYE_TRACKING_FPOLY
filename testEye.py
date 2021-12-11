@@ -24,7 +24,7 @@ fonts = cv2.FONT_HERSHEY_COMPLEX
 
 
 # đối tượng nhận diện khuôn mặt
-face_detector = cv2.CascadeClassifier("E:\haarcascade_frontalface_default.xml")
+face_detector = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
  
 
 # chức năng tìm độ dài tiêu cự
@@ -68,7 +68,7 @@ def face_data(image):
  
  
 # đọc tham chiếu_image từ thư mục
-ref_image = cv2.imread("E:\BIO-ID Dataset\BioID_0000.jpg")
+ref_image = cv2.imread("E:\Thi\ResFres\BIO-ID Dataset\BioID_0000.jpg")
  
 # find the face width(pixels) in the reference_image
 ref_image_face_width = face_data(ref_image)
