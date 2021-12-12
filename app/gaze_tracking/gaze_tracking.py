@@ -1,4 +1,4 @@
-# from __future__ import division
+from __future__ import division
 import os
 import cv2
 import dlib
@@ -36,7 +36,7 @@ class GazeTracking(object):
             int(self.eye_right.pupil.x)
             int(self.eye_right.pupil.y)
             return True
-        except Exception:
+        except:
             return False
 
     def _analyze(self):
@@ -49,7 +49,7 @@ class GazeTracking(object):
             self.eye_left = Eye(frame, landmarks, 0, self.calibration) #Tọa độ tâm mắt trái
             self.eye_right = Eye(frame, landmarks, 1, self.calibration) #Tọa độ tâm mắt phải
 
-        except IndexError:
+        except:
             self.eye_left = None
             self.eye_right = None
 
@@ -100,12 +100,12 @@ class GazeTracking(object):
     def is_right(self):
         """Returns true if the user is looking to the right"""
         if self.pupils_located:
-            return self.horizontal_ratio() <= 0.35
+            return self.horizontal_ratio() <= 0.55
 
     def is_left(self):
         """Returns true if the user is looking to the left"""
         if self.pupils_located:
-            return self.horizontal_ratio() >= 0.65
+            return self.horizontal_ratio() >= 0.75
 
     def is_center(self):
         """Returns true if the user is looking to the center"""
