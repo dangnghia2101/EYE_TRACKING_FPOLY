@@ -7,6 +7,13 @@ import numpy as np
 import cv2
 from gaze_tracking import GazeTracking
 
+from kivy.graphics.vertex_instructions import Rectangle
+from kivy.graphics.context_instructions import Color
+from kivy.uix.button import Button
+import uuid 
+from kivy.uix.label import Label
+
+
 Builder.load_file('layout.kv')
 gaze = GazeTracking()
 
@@ -15,16 +22,71 @@ class AndroidCamera(Camera):
     cam_ratio = camera_resolution[0] / camera_resolution[1]
 
 class MyLayout(BoxLayout):
-    pass
+    def __init__(self, **kwargs):
+        super(MyLayout, self).__init__(**kwargs)
+        self.cols = 1
+
+        self.bind(
+            size=self._update_rect,
+            pos=self._update_rect
+        )
+
+        with self.canvas.before:
+            Color(0, 226, 226, 1)
+            self.rect = Rectangle(
+                size=self.size,
+                pos=self.pos
+            )
+
+    def _update_rect(self, instance, value):
+        self.rect.pos = instance.pos
+        self.rect.size = instance.size
 
 
 class MyApp(App):
     counter = 0
+    isOnLeft = True
+    isOnRight = False
+    currentLeftIndex = -1
+    currentRightIndex = -1
+    left = ['Xin chào', 'Vâng', 'Cảm ơn', 'Không', 'Được', 'Có thể']
+    right = ['Mở tivi', 'Mở nhạc', 'Nước', 'Trái cây', 'Ăn cơm', 'Đói']
+    leftIds = []
+    rightIds = []
+    sentence = ""
+    blinking = 0
 
     def build(self):
         return MyLayout()
+    
+    def render(self):        
+        for i in range(len(self.left)):
+            id = str(uuid.uuid4())
+            self.leftIds.append(id);
+            btn = Button(text = self.left[i],
+                        font_size ="20sp",
+                        background_color =(232,232,232,1),
+                        color =(255, 255, 255, 1),
+                        size =(32, 32),
+                        size_hint =(.2, .2)
+                        )
+            self.root.ids[id] = btn   
+            self.root.ids.left_grid.add_widget(btn)
+        for i in range(len(self.right)):
+            id = str(uuid.uuid4())
+            self.rightIds.append(id);
+            btn = Button(text = self.right[i],
+                        font_size ="20sp",
+                        background_color =(232,232,232,1),
+                        color =(255, 255, 255, 1),
+                        size =(32, 32),
+                        size_hint =(.2, .2)
+                        )
+            self.root.ids[id] = btn   
+            self.root.ids.right_grid.add_widget(btn)
 
     def on_start(self):
+        self.render()
         Clock.schedule_once(self.get_frame, 5)
 
     def get_frame(self, dt):
@@ -37,18 +99,67 @@ class MyApp(App):
         gaze.refresh(frame)
         text = ""
 
-        if gaze.is_blinking():
-            text = "Blinking"
+        if gaze.is_blinking():            
+            # print(">>>>>>>Blink: ", self.counter)           
+            if self.isOnRight == True:  
+                self.currentRightIndex += 1
+            if self.isOnLeft == True:  
+                self.currentLeftIndex += 1
+            self.counter = 0
         elif gaze.is_right():
-            text = "Looking right"
+            if self.isOnRight == False:                
+                self.isOnRight = True
+                self.isOnLeft = False
+                self.currentLeftIndex = -1
+            self.counter = 0
         elif gaze.is_left():
-            text = "Looking left"
-        elif gaze.is_center():
-            text = "Looking center"
+            if self.isOnLeft == False:                
+                self.isOnRight = False
+                self.isOnLeft = True
+                self.currentRightIndex = -1
+            self.counter = 0
+        elif gaze.is_center(): pass
+        else: self.counter +=1
+        
+        if self.currentRightIndex >= len(self.rightIds): self.currentRightIndex = 0            
+        if self.currentLeftIndex >= len(self.leftIds): self.currentLeftIndex = 0            
+        
+        print(self.isOnLeft, self.isOnRight, self.currentRightIndex, self.currentLeftIndex, self.counter)
 
-        self.root.ids.frame_counter.text = f'check: {text}'
+        if self.counter == 20:
+            if self.isOnLeft == True: self.sentence = self.left[self.currentLeftIndex]
+            if self.isOnRight == True: self.sentence = self.right[self.currentRightIndex]
+            self.counter = 0
+
+        if self.isOnLeft == True:  
+            for index in range(len(self.rightIds)):
+                id = self.rightIds[index]
+                self.root.ids[id].background_color=(232,232,232,1)
+            if self.currentLeftIndex == -1: pass                       
+            for index in range(len(self.leftIds)):
+                id = self.leftIds[index]                
+                if self.currentLeftIndex == index: self.root.ids[id].background_color=(0, 179, 241, 1)
+                else: self.root.ids[id].background_color=(232,232,232,1)       
+        if self.isOnRight == True:
+            for index in range(len(self.leftIds)):
+                id = self.leftIds[index]
+                self.root.ids[id].background_color=(232,232,232,1)
+            if self.currentRightIndex == -1: pass    
+            for index in range(len(self.rightIds)):
+                id = self.rightIds[index]
+                if self.currentRightIndex == index: self.root.ids[id].background_color=(0, 179, 241, 1)
+                else: self.root.ids[id].background_color=(232,232,232,1)
+            
+        
+
+
+        self.root.ids.sentence.text = self.sentence
         # self.counter += 1
-        Clock.schedule_once(self.get_frame, 0.25)
+        # print(self.leftIds)
+        # print(self.rightIds)
+        
+        # print('check: ', text)
+        Clock.schedule_once(self.get_frame, 0.1)
 
 if __name__ == "__main__":
     MyApp().run()

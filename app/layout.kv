@@ -1,12 +1,15 @@
 <MyLayout>:
     orientation: 'vertical'
     size: root.width, root.height
+    padding: 16
 
     GridLayout:
-        rows: 2
+        rows: 3
+        padding: 16
 
         RelativeLayout:
             size_hint: 1, 0.8
+            padding: 8
 
             AndroidCamera:
                 index: 0
@@ -19,14 +22,32 @@
                         angle: 0
                         origin: self.center
                     Scale:
-                        x: self.cam_ratio
-                        y: self.cam_ratio
+                        x: 1
+                        y: 1
                         origin: self.center
                 canvas.after:
                     PopMatrix
 
+        GridLayout:
+            cols: 2
+            row_force_default: True
+            row_default_height: 40
+            id: my_grid
+            padding: 8
+
+            GridLayout:
+                rows: 6
+                row_force_default: True
+                row_default_height: 40
+                id: left_grid
+            GridLayout:
+                rows: 6
+                row_force_default: True
+                row_default_height: 40
+                id: right_grid
         Label:
             size_hint: 1, 0.2
-            id: frame_counter
+            id: sentence
+            margin: 8
             font_size: self.height * 0.4
             text: ''
