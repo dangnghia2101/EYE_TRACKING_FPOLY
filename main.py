@@ -12,7 +12,10 @@ from kivy.graphics.context_instructions import Color
 from kivy.uix.button import Button
 import uuid 
 from kivy.uix.label import Label
-
+from gtts import gTTS
+import os
+import playsound #pip install playsound==1.2.2
+import wikipedia
 
 Builder.load_file('layout.kv')
 gaze = GazeTracking()
@@ -49,12 +52,18 @@ class MyApp(App):
     isOnRight = False
     currentLeftIndex = -1
     currentRightIndex = -1
+    prevLeftIndex = -1
+    prevRightIndex = -1
+    isLeftNotChanged = True
+    isRightNotChanged = True
     left = ['Xin chào', 'Vâng', 'Cảm ơn', 'Không', 'Được', 'Có thể']
     right = ['Mở tivi', 'Mở nhạc', 'Nước', 'Trái cây', 'Ăn cơm', 'Đói']
     leftIds = []
     rightIds = []
     sentence = ""
     blinking = 0
+    wikipedia.set_lang('vi')
+    language = 'vi'
 
     def build(self):
         return MyLayout()
@@ -99,37 +108,42 @@ class MyApp(App):
         gaze.refresh(frame)
         text = ""
 
-        if gaze.is_blinking():            
-            # print(">>>>>>>Blink: ", self.counter)           
+        if gaze.is_blinking():                    
             if self.isOnRight == True:  
                 self.currentRightIndex += 1
             if self.isOnLeft == True:  
                 self.currentLeftIndex += 1
-            self.counter = 0
         elif gaze.is_right():
             if self.isOnRight == False:                
                 self.isOnRight = True
                 self.isOnLeft = False
                 self.currentLeftIndex = -1
-            self.counter = 0
         elif gaze.is_left():
             if self.isOnLeft == False:                
                 self.isOnRight = False
                 self.isOnLeft = True
                 self.currentRightIndex = -1
-            self.counter = 0
         elif gaze.is_center(): pass
-        else: self.counter +=1
+        else: pass
         
+        self.counter += 1
+
         if self.currentRightIndex >= len(self.rightIds): self.currentRightIndex = 0            
         if self.currentLeftIndex >= len(self.leftIds): self.currentLeftIndex = 0            
         
         print(self.isOnLeft, self.isOnRight, self.currentRightIndex, self.currentLeftIndex, self.counter)
 
-        if self.counter == 20:
-            if self.isOnLeft == True: self.sentence = self.left[self.currentLeftIndex]
-            if self.isOnRight == True: self.sentence = self.right[self.currentRightIndex]
-            self.counter = 0
+        if self.counter == 7:            
+            self.counter = 0 
+            if self.currentLeftIndex == -1 and self.currentRightIndex == -1: pass                           
+            elif self.isLeftNotChanged == True or self.isRightNotChanged == True:     
+                if self.isOnLeft == True: self.sentence = self.left[self.currentLeftIndex]
+                if self.isOnRight == True: self.sentence = self.right[self.currentRightIndex]           
+                tts = gTTS(text=self.sentence, lang=self.language, slow=False)
+                mp3 = str(uuid.uuid4()) + ".mp3"
+                tts.save(mp3)
+                playsound.playsound(mp3, False)
+                os.remove(mp3)
 
         if self.isOnLeft == True:  
             for index in range(len(self.rightIds)):
@@ -157,9 +171,20 @@ class MyApp(App):
         # self.counter += 1
         # print(self.leftIds)
         # print(self.rightIds)
+        if self.prevLeftIndex == self.currentLeftIndex: 
+            self.isLeftNotChanged = True
+        else:
+            self.prevLeftIndex = self.currentLeftIndex
+            self.isLeftNotChanged = False
         
+        if self.prevRightIndex == self.currentRightIndex: 
+            self.isRightNotChanged = True
+        else:
+            self.prevRightIndex = self.currentRightIndex
+            self.isRightNotChanged = False
+
         # print('check: ', text)
-        Clock.schedule_once(self.get_frame, 0.1)
+        Clock.schedule_once(self.get_frame, 0.3)
 
 if __name__ == "__main__":
     MyApp().run()
