@@ -10,6 +10,12 @@ from gaze_tracking import GazeTracking
 from kivy.graphics.vertex_instructions import Rectangle
 from kivy.graphics.context_instructions import Color
 from kivy.uix.button import Button
+
+from kivymd.app import MDApp
+from kivymd.uix.screen import Screen
+from kivymd.uix.button import MDRectangleFlatButton
+
+
 import uuid 
 from kivy.uix.label import Label
 from gtts import gTTS
@@ -35,7 +41,7 @@ class MyLayout(BoxLayout):
         )
 
         with self.canvas.before:
-            Color(0, 226, 226, 1)
+            Color(255, 225, 225, 1)
             self.rect = Rectangle(
                 size=self.size,
                 pos=self.pos
@@ -46,7 +52,7 @@ class MyLayout(BoxLayout):
         self.rect.size = instance.size
 
 
-class MyApp(App):
+class MyApp(MDApp):
     counter = 0
     isOnLeft = True
     isOnRight = False
@@ -74,20 +80,32 @@ class MyApp(App):
             self.leftIds.append(id);
             btn = Button(text = self.left[i],
                         font_size ="20sp",
-                        background_color =(232,232,232,1),
-                        color =(255, 255, 255, 1),
+                        # background_color =(232,232,232,1),
+                        background_normal = 'icontext.png',
+                        background_down = 'icontext1.png',
+                        border = (30, 30, 30, 30),
+                        color =(212, 184, 22, 1),
                         size =(32, 32),
                         size_hint =(.2, .2)
                         )
+            # btn= MDRectangleFlatButton(text= self.left[i],pos_hint={'center_x':0.5,'center_y':0.3})
             self.root.ids[id] = btn   
             self.root.ids.left_grid.add_widget(btn)
         for i in range(len(self.right)):
             id = str(uuid.uuid4())
             self.rightIds.append(id);
             btn = Button(text = self.right[i],
+                        # font_size ="20sp",
+                        # background_color =(232,232,232,1),
+                        # color =(255, 255, 255, 1),
+                        # size =(32, 32),
+                        # size_hint =(.2, .2)
+
                         font_size ="20sp",
-                        background_color =(232,232,232,1),
-                        color =(255, 255, 255, 1),
+                        background_normal = 'icontext.png',
+                        background_down = 'icontext1.png',
+                        border = (30, 30, 30, 30),
+                        color =(184, 184, 22, 1),
                         size =(32, 32),
                         size_hint =(.2, .2)
                         )
@@ -142,32 +160,49 @@ class MyApp(App):
                 tts = gTTS(text=self.sentence, lang=self.language, slow=False)
                 mp3 = str(uuid.uuid4()) + ".mp3"
                 tts.save(mp3)
-                playsound.playsound(mp3, False)
+                playsound.playsound(mp3, True)
                 os.remove(mp3)
 
         if self.isOnLeft == True:  
             for index in range(len(self.rightIds)):
                 id = self.rightIds[index]
-                self.root.ids[id].background_color=(232,232,232,1)
+                # self.root.ids[id].background_color=(232,232,232,1)
+                self.root.ids[id].background_normal = 'icontext.png'
+                self.root.ids[id].color  = (212, 184, 22, 1) 
             if self.currentLeftIndex == -1: pass                       
             for index in range(len(self.leftIds)):
                 id = self.leftIds[index]                
-                if self.currentLeftIndex == index: self.root.ids[id].background_color=(0, 179, 241, 1)
-                else: self.root.ids[id].background_color=(232,232,232,1)       
+                # if self.currentLeftIndex == index: self.root.ids[id].background_color=(0, 179, 241, 1)
+                # else: self.root.ids[id].background_color=(232,232,232,1)       
+
+                if self.currentLeftIndex == index: 
+                    self.root.ids[id].background_normal = 'icontext1.png'
+                    self.root.ids[id].color  = (1,1,1, 1)
+                else: 
+                    self.root.ids[id].background_normal = 'icontext.png'    
+                    self.root.ids[id].color  = (212, 184, 22, 1)        
         if self.isOnRight == True:
             for index in range(len(self.leftIds)):
                 id = self.leftIds[index]
-                self.root.ids[id].background_color=(232,232,232,1)
+                # self.root.ids[id].background_color=(232,232,232,1)
+                self.root.ids[id].background_normal = 'icontext.png'
+                self.root.ids[id].color  = (212, 184, 22, 1) 
             if self.currentRightIndex == -1: pass    
             for index in range(len(self.rightIds)):
                 id = self.rightIds[index]
-                if self.currentRightIndex == index: self.root.ids[id].background_color=(0, 179, 241, 1)
-                else: self.root.ids[id].background_color=(232,232,232,1)
-            
-        
+                # if self.currentRightIndex == index: self.root.ids[id].background_color=(0, 179, 241, 1)
+                # else: self.root.ids[id].background_color=(232,232,232,1)
+
+                if self.currentRightIndex == index: 
+                    self.root.ids[id].color  = (1,1,1, 1)
+                    self.root.ids[id].background_normal = 'icontext1.png'
+                else: 
+                    self.root.ids[id].background_normal = 'icontext.png'  
+                    self.root.ids[id].color  = (212, 184, 22, 1)        
 
 
         self.root.ids.sentence.text = self.sentence
+        self.root.ids.sentence.color = (0, 0, 0, 1)
         # self.counter += 1
         # print(self.leftIds)
         # print(self.rightIds)
