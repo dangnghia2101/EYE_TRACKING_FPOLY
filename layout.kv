@@ -1,8 +1,8 @@
 <MyLayout>:
     orientation: 'vertical'
     size: root.width, root.height
-    padding: 16
-    spacing: 30
+    padding: 10
+    spacing: 10
 
     GridLayout:
         rows: 3
@@ -29,7 +29,7 @@
                         origin: self.center
                 canvas.after:
                     PopMatrix
-
+                
 
         GridLayout:
             cols: 2
@@ -40,22 +40,29 @@
             spacing: 50
             
             GridLayout:
-                rows: 6
+                rows: 5
                 spacing: 10
                 row_force_default: True
                 row_default_height: 40
                 id: left_grid
             GridLayout:
-                rows: 6
+                rows: 5
                 spacing: 10
                 row_force_default: True
                 row_default_height: 40
                 id: right_grid
-        Label:
+        Button:
             size_hint: 1, 0.2
+            rows: 1
+            row_force_default: True
+            row_default_height: 40
+            margin: 10
             id: sentence
-            font_size: self.height * 0.4
+            font_size: self.height * 0.8
             text: ''
-            margin: 190
+
+        
+
+
             
             

@@ -62,8 +62,8 @@ class MyApp(MDApp):
     prevRightIndex = -1
     isLeftNotChanged = True
     isRightNotChanged = True
-    left = ['Xin chào', 'Vâng', 'Cảm ơn', 'Không', 'Được', 'Có thể']
-    right = ['Mở tivi', 'Mở nhạc', 'Nước', 'Trái cây', 'Ăn cơm', 'Đói']
+    left = ['Xin chào', 'Vâng', 'Cảm ơn', 'Không', 'Được']
+    right = ['Mở tivi', 'Mở nhạc', 'Nước', 'Trái cây', 'Ăn cơm']
     leftIds = []
     rightIds = []
     sentence = ""
@@ -202,7 +202,9 @@ class MyApp(MDApp):
 
 
         self.root.ids.sentence.text = self.sentence
-        self.root.ids.sentence.color = (0, 0, 0, 1)
+        self.root.ids.sentence.color = (1, 1, 1, 1)
+        self.root.ids.sentence.background_normal = 'icontext2.png'
+        # self.root.ids.background_color=(232,232,232,1)
         # self.counter += 1
         # print(self.leftIds)
         # print(self.rightIds)
