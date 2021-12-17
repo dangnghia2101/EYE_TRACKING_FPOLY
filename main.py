@@ -151,17 +151,17 @@ class MyApp(MDApp):
         
         print(self.isOnLeft, self.isOnRight, self.currentRightIndex, self.currentLeftIndex, self.counter)
 
-        if self.counter == 6:            
+        if self.counter == 12:            
             self.counter = 0 
             if self.currentLeftIndex == -1 and self.currentRightIndex == -1: pass                           
             elif self.isLeftNotChanged == True or self.isRightNotChanged == True:     
                 if self.isOnLeft == True: 
                     self.sentence = self.left[self.currentLeftIndex]
-                    playsound.playsound('l'+str(self.currentLeftIndex)+'.mp3', True)
+                    playsound.playsound('l'+str(self.currentLeftIndex)+'.mp3', False)
                     print(self.currentLeftIndex)
                 if self.isOnRight == True: 
                     self.sentence = self.right[self.currentRightIndex]   
-                    playsound.playsound('r'+str(self.currentRightIndex)+'.mp3', True)     
+                    playsound.playsound('r'+str(self.currentRightIndex)+'.mp3', False)     
                     print(self.currentRightIndex)   
 
                 # tts = gTTS(text=self.sentence, lang=self.language, slow=False)
