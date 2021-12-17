@@ -155,8 +155,15 @@ class MyApp(MDApp):
             self.counter = 0 
             if self.currentLeftIndex == -1 and self.currentRightIndex == -1: pass                           
             elif self.isLeftNotChanged == True or self.isRightNotChanged == True:     
-                if self.isOnLeft == True: self.sentence = self.left[self.currentLeftIndex]
-                if self.isOnRight == True: self.sentence = self.right[self.currentRightIndex]           
+                if self.isOnLeft == True: 
+                    self.sentence = self.left[self.currentLeftIndex]
+                    playsound.playsound('l'+str(self.currentLeftIndex)+'.mp3', True)
+                    print(self.currentLeftIndex)
+                if self.isOnRight == True: 
+                    self.sentence = self.right[self.currentRightIndex]   
+                    playsound.playsound('r'+str(self.currentRightIndex)+'.mp3', True)     
+                    print(self.currentRightIndex)   
+
                 # tts = gTTS(text=self.sentence, lang=self.language, slow=False)
                 # mp3 = str(uuid.uuid4()) + ".mp3"
                 # tts.save(mp3)
