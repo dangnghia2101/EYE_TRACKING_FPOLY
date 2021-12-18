@@ -84,9 +84,10 @@ class MyApp(MDApp):
                         background_normal = 'icontext.png',
                         background_down = 'icontext1.png',
                         border = (30, 30, 30, 30),
-                        color =(212, 184, 22, 1),
+                        color =(242, 124, 22, 1),
                         size =(32, 32),
-                        size_hint =(.2, .2)
+                        size_hint =(.2, .2),
+                        font_name = 'FrancoisOne-Regular.ttf'
                         )
             # btn= MDRectangleFlatButton(text= self.left[i],pos_hint={'center_x':0.5,'center_y':0.3})
             self.root.ids[id] = btn   
@@ -105,9 +106,10 @@ class MyApp(MDApp):
                         background_normal = 'icontext.png',
                         background_down = 'icontext1.png',
                         border = (30, 30, 30, 30),
-                        color =(184, 184, 22, 1),
+                        color =(242, 124, 22, 1),
                         size =(32, 32),
-                        size_hint =(.2, .2)
+                        size_hint =(.2, .2),
+                        font_name = 'FrancoisOne-Regular.ttf'
                         )
             self.root.ids[id] = btn   
             self.root.ids.right_grid.add_widget(btn)
@@ -151,7 +153,7 @@ class MyApp(MDApp):
         
         print(self.isOnLeft, self.isOnRight, self.currentRightIndex, self.currentLeftIndex, self.counter)
 
-        if self.counter == 12:            
+        if self.counter == 10:            
             self.counter = 0 
             if self.currentLeftIndex == -1 and self.currentRightIndex == -1: pass                           
             elif self.isLeftNotChanged == True or self.isRightNotChanged == True:     
@@ -212,6 +214,7 @@ class MyApp(MDApp):
         self.root.ids.sentence.text = self.sentence
         self.root.ids.sentence.color = (1, 1, 1, 1)
         self.root.ids.sentence.background_normal = 'icontext2.png'
+        self.root.ids.sentence.font_name = 'FrancoisOne-Regular.ttf'
         # self.root.ids.background_color=(232,232,232,1)
         # self.counter += 1
         # print(self.leftIds)
